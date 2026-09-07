@@ -5,4 +5,9 @@ lv_port_linux/build_host/
 lv_port_linux/.deps
 lv_port_linux/env
 lv_port_linux/.cache/*
+lv_port_linux/example/
+lv_port_linux/docker/
+lv_port_linux/boards/
+lv_port_linux/3d/
 
+lv_port_linux/README.md
