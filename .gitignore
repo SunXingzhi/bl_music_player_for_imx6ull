@@ -1,0 +1,8 @@
+lv_port_linux/.config 
+lv_port_linux/.config.old
+lv_port_linux/build_arm/
+lv_port_linux/build_host/
+lv_port_linux/.deps
+lv_port_linux/env
+lv_port_linux/.cache/*
+

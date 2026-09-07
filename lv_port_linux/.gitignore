@@ -1,7 +1,0 @@
-.config 
-.config.old
-build_arm/
-build_host/
-.deps
-env
-.cache/*
