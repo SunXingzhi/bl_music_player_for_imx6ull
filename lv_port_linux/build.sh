@@ -1,17 +1,23 @@
 # !/bin/bash
+# Usage:
+# Format: ./build.sh ARCH=<arch>(arm, host) [Optional: USE_CMAKE or USE_MAKE, DEFAUT:USE_CMAKE]
+# If the optional item is chosen, there could be some arguments of cmake or make depend on your target.
+# Config options:
+#   CONFIG=<defconfig_path>  Use the given defconfig file to generate .config (e.g. CONFIG=configs/get_started.defconfig)
+#   MENUCONFIG=1             Open the menuconfig interface (after loading defconfig if CONFIG= is also given)
+#   If neither is given, reuse the existing .config; if no .config exists, open menuconfig.
+
+BUILD_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cat "$BUILD_PATH/logo.txt"
 
 if [ -z "$BASH_VERSION" ]; then
-	echo "请用 bash 执行: bash build.sh" >&2
+	echo "Please excute script with bash: bash build.sh" >&2
 	exit 1
 fi
 
 set -e # Stop program after error occured.
-# Usage:
-# Format: ./build.sh ARCH=<arch>(arm, host) [Optional: USE_CMAKE or USE_MAKE, DEFAUT:USE_CMAKE]
-# If the optional item is chosen, there could be some arguments of cmake or make depend on your target.
 
 # Function defination
-
 # echo with stage
 # arg1: stage_name(function name or current processing),
 # arg2: information to echo
@@ -29,7 +35,10 @@ CROSS_COMPILE=false
 ARCH="host"
 COMPILE_TOOL="cmake"
 ARCH_SET=false
+CONFIG_FILE=""
+MENUCONFIG=false
 USE_NINJA=""
+GENERATOR=""
 EXTRA_ARGS=() # Array including ninja, specified-tool-chain file, etc
 CROSS_COMPILE_FILE_PATH="/home/q1325/Projects/IMX6ULL_learn/buildroot/output/host/share/buildroot/toolchainfile.cmake"
 
@@ -92,8 +101,27 @@ for i in "$@"; do
 			# open the venv for using the config tools, such as menuconfig defconfig etc.
 		else
 			secho "check" "Venv path is empty. It will create a new environment"
+			VENV_PATH=""
 		fi
 
+		;;
+	CONFIG=*)
+		# Defconfig file used to generate the .config
+		CONFIG_FILE="${i#CONFIG=}"
+		if [[ -f $CONFIG_FILE ]]; then
+			# convert to the absolute path before changing the working directory
+			CONFIG_FILE="$(cd "$(dirname "$CONFIG_FILE")" && pwd)/$(basename "$CONFIG_FILE")"
+			secho "check" "Defconfig file set to ${CONFIG_FILE}"
+		else
+			secho "check" "Defconfig file not found: ${CONFIG_FILE}" >&2
+			exit 1
+		fi
+		;;
+	MENUCONFIG=*)
+		if [[ ${i#MENUCONFIG=} == "1" ]]; then
+			MENUCONFIG=true
+			secho "check" "MENUCONFIG enabled, will open the menuconfig interface."
+		fi
 		;;
 	*)
 		echo "未知参数: $i"
@@ -119,7 +147,7 @@ fi
 
 # Confirm the build information
 echo "==========================================================="
-BUILD_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 secho "Confirm" "Chosen arch:		$ARCH, 
 		Compile tools:		$COMPILE_TOOL, 
 		Compiler path:		$COMPILER_TOOL_PATH/$COMPILER_NAME,
@@ -127,41 +155,51 @@ secho "Confirm" "Chosen arch:		$ARCH,
 		Tool chain file:	$CROSS_COMPILE_FILE_PATH,
 		Build args		"${EXTRA_ARGS[@]}""
 
-# Set the defconfig
-# activate the python venv
-if [[ -z $(whereis -b python3) ]]; then
-	secho "Check" "Please provide the python3 environment."
+
+# Get python environment
+if  ! command -v python3 &>/dev/null ; then
+	secho "Check" "python3 environment is required but not found." >&2
+	exit 1
 fi
 
-PYTHON_PATH=($(whereis -b python3))
-PYTHON_PATH=${PYTHON_PATH[1]}
-VENV_PATH="$BUILD_PATH/env"
-secho "Build" "Create the python3 project environment. Use:$PYTHON_PATH"
-
-"$PYTHON_PATH" -m venv "$VENV_PATH"
-
-if [[ (-d $VENV_PATH) && (-d "$BUILD_PATH/env") ]]; then
-	secho "Build" "Use the $VENV_PATH"
-	source $VENV_PATH/bin/activate
-	pip install kconfiglib pcpp
+if [[ -d "$VENV_PATH" ]]; then
+	secho "Check" "Use the $VENV_PATH"
+	"$VENV_PATH"/bin/python3 -m pip install kconfiglib pcpp
 else
-
-	secho "Build" "Failed to find the venv."
+	secho "Check" "Failed to find the venv. Creating the python3 project environment. Use: python3"
+	VENV_PATH="$BUILD_PATH/env"
+	python3 -m venv "$VENV_PATH" && "$VENV_PATH"/bin/python3 -m pip install kconfiglib pcpp
+	secho "Check" "Installation finished."
 fi
 
-# test python venv
-menuconfig
-#source "$VENV_PATH/bin/activate" env
 
 # Start config
-# ========debug=========
-# delete the space in the header of the EXTRA_ARGS
+# Generate .config from defconfig / menuconfig, or reuse the existing one
+cd "$BUILD_PATH"
+# if [[ -f "CMakeCache.txt" && -n "$GENERATOR" ]]; then
+# 	rm -f "CMakeCache.txt"
+# 	secho "Config" "rm cmake cache for using generator."
+# fi
+
+if [[ -n "$CONFIG_FILE" ]]; then
+	secho "Config" "Load defconfig: ${CONFIG_FILE}"
+	"$VENV_PATH"/bin/defconfig "$CONFIG_FILE"
+fi
+
+if $MENUCONFIG; then
+	secho "Config" "Opening menuconfig..."
+	"$VENV_PATH"/bin/menuconfig
+elif [[ -n "$CONFIG_FILE" ]]; then
+	secho "Config" ".config generated from the defconfig."
+elif [[ -f .config ]]; then
+	secho "Config" "Reuse the existing .config. (Use CONFIG=<path> or MENUCONFIG=1 to change it)"
+else
+	secho "Config" "No .config found. Opening menuconfig to create one..."
+	"$VENV_PATH"/bin/menuconfig
+fi
 
 secho "Build" "cmake -B \"$BUILD_PATH/$TARGET_BUILD_DIR\" \"${EXTRA_ARGS[@]}\" -S \"$BUILD_PATH\" "
-secho "Debug" "EXTRA_ARGS = ${EXTRA_ARGS[@]}"
 cmake -B "$BUILD_PATH/$TARGET_BUILD_DIR" "${EXTRA_ARGS[@]}" -S "$BUILD_PATH"
-# ======================
-
 secho "Build" "Build finished."
 
 # Start compile
@@ -170,7 +208,15 @@ if [[ $COMPILE_TOOL=="cmake" ]]; then
 	cmake --build "$BUILD_PATH/$TARGET_BUILD_DIR"
 
 fi
-
 secho "Compile" "Finished."
 
-echo "Scripts finished."
+# Sync compile_commands.json to the project root so clangd picks up
+# the correct (host or arm) compile flags automatically.
+secho "clangd" "Sync $TARGET_BUILD_DIR/compile_commands.json -> project root"
+cp "$BUILD_PATH/$TARGET_BUILD_DIR/compile_commands.json" "$BUILD_PATH/compile_commands.json"
+
+secho "Script" "Finished."
+
+# Send bin to nfs, which need a super user permission.
+NFS_PATH="../../rootfs/nfs/root"
+cp "$TARGET_BUILD_DIR/bin/lvglsim" 

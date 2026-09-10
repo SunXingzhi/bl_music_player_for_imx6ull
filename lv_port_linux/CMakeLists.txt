@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(lvgl)
 
 option(WERROR "Treat warnings as errors for LVGL targets" OFF)
@@ -84,7 +85,6 @@ if(WERROR)
     target_compile_options(lvgl PRIVATE -Werror)
     target_compile_options(lvgl_linux PRIVATE -Werror)
 endif()
-
 
 # Install the lvgl_linux library and its headers
 install(DIRECTORY src/lib/

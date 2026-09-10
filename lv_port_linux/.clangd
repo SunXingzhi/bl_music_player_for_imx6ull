@@ -1,0 +1,9 @@
+CompileFlags:
+  # 只移除上层 IMX6ULL_learn/.clangd 注入的 --target=arm-linux-gnueabihf。
+  # ARM 构建时 compile_commands.json 里的 arm-*-gcc 会让 clangd 自动推断
+  # arm triple 并取得工具链头文件路径，无需该 flag（已用 clangd --check 验证）。
+  Remove:
+    - --target=arm-linux-gnueabihf
+
+Diagnostics:
+  UnusedIncludes: None
