@@ -13,6 +13,10 @@
 /* Global simulator settings, defined in driver_backends.c */
 extern simulator_settings_t settings;
 
+lv_style_t test_screen_style;
+
+void lyrics_demo_create(void);
+
 /**
  * @brief entry point
  * @description start a demo
@@ -43,9 +47,7 @@ int main()
                 die("Failed to initialize evdev");
         }
 
-        /****************** Button demo *****************/
-        lv_demo_music();
-        /*************************************************/
+        lyrics_demo_create();
 
         while(1) {
                 uint32_t ms = lv_timer_handler();

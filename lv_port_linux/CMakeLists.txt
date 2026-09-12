@@ -77,7 +77,7 @@ list(APPEND LIBS lvgl::examples)
 endif()
 
 target_link_libraries(lvgl_linux PUBLIC ${LIBS})
-add_executable(lvglsim src/main.c)
+add_executable(lvglsim src/main.c src/lyrics_demo.c)
 target_link_libraries(lvglsim PUBLIC lvgl_linux ${EXTRA_LIBS})
 
 if(WERROR)
