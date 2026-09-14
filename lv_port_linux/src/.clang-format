@@ -1,0 +1,67 @@
+# .clang-format for this project
+# Derived from src/code_format.c + CODING_STYLE.md
+#
+# Key decisions:
+#   - Indent: ALWAYS Tab, width 8 (user requirement; Trailing comments aligned manually)
+#   - Braces: same-line for control statements (if/for/switch), next-line for functions
+#     (matches code_format.c: if{ same-line @21, main's { on its own line @16-17)
+#   - Spaces: compact — no space after if/for/switch keywords (SpaceBeforeParens: Never)
+#   - Pointer style: char* argv[]  ('*' attached to type)
+#
+# Human-maintained (clang-format cannot enforce):
+#   - do{}while(0) macros without trailing ';'
+#   - `//` preference over /* */ for inline comments
+#   - doxygen function headers
+
+---
+Language:        Cpp
+BasedOnStyle:    LLVM
+Standard:        c++03
+
+# ---- Indent ----------------------------------------------------------------
+UseTab:                    Always
+TabWidth:                  8
+IndentWidth:               8
+ContinuationIndentWidth:   8
+ColumnLimit:               100
+IndentCaseBlocks:          false
+IndentCaseLabels:          true
+AccessModifierOffset:      -8
+
+# ---- Braces -----------------------------------------------------------------
+BreakBeforeBraces:         Custom
+BraceWrapping:
+  AfterControlStatement:   Never   # if(...){ / for(...){  (code_format.c:21,36)
+  AfterFunction:           true    # function brace on next line (code_format.c:16-17)
+  AfterEnum:               false
+  AfterStruct:             false
+  AfterExternBlock:        false
+  BeforeElse:              false
+  BeforeWhile:             false
+  IndentBraces:            false
+
+# ---- Spaces ------------------------------------------
+SpaceBeforeParens:         Never
+SpaceAfterCStyleCast:      false
+SpaceBeforeAssignmentOperators: false
+SpacesBeforeTrailingComments: 1
+Cpp11BracedListStyle:      true
+
+# ---- Alignment / misc --------------------------------------------------------
+AlignConsecutiveMacros:    Consecutive
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: Consecutive   # align variable names in declaration blocks
+AlignAfterOpenBracket:     Align
+AlignEscapedNewlines:      Left   # multi-line macros: '\' at fixed column, not padded to col-limit
+PointerAlignment:          Left
+DerivePointerAlignment:    false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+SortIncludes:              CaseInsensitive
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep:       2
+
+# ---- Known limitations (see CODING_STYLE.md) ---------------------------------
+# clang-format cannot force-removes spaces inside binary operators (i<5, argc!=2)
+# and cannot align trailing '\' of multi-line macros. Human check required.
