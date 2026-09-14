@@ -24,14 +24,14 @@
  **********************/
 #define LINE_ANIM_TIME 350 /* ms, line highlight animation */
 #define LINE_STEP_MS 2600  /* ms, auto advance per line */
-#define BUTTON_NUMBER 5
+#define BUTTON_NUMBER 3
 
 typedef enum {
+        BUTTON_PREV_SONG,
         BUTTON_PLAY_PAUSE,
         BUTTON_NEXT_SONG,
-        BUTTON_PREV_SONG,
-        BUTTON_BACK,
-        BUTTON_SETTING,
+        // BUTTON_BACK,
+        // BUTTON_SETTING,
 } button_type_t;
 
 /**********************
@@ -192,11 +192,11 @@ static void timer_tick_cb(lv_timer_t * t)
 static const char * button_symbol_of(button_type_t type)
 {
         switch(type) {
+                case BUTTON_PREV_SONG:  return LV_SYMBOL_PREV;
                 case BUTTON_PLAY_PAUSE: return LV_SYMBOL_PAUSE;
                 case BUTTON_NEXT_SONG:  return LV_SYMBOL_NEXT;
-                case BUTTON_PREV_SONG:  return LV_SYMBOL_PREV;
-                case BUTTON_BACK:       return LV_SYMBOL_LEFT;
-                case BUTTON_SETTING:    return LV_SYMBOL_SETTINGS;
+                // case BUTTON_BACK:       return LV_SYMBOL_BACKSPACE;
+                // case BUTTON_SETTING:    return LV_SYMBOL_SETTINGS;
                 default:                return NULL;
         }
 }
@@ -209,8 +209,11 @@ static int create_button_ui(lv_obj_t * container)
 	
 	// create a child container to place the button, in order to make the button flex row.
 	lv_obj_t* button_container	= lv_obj_create(container);
-	// set the style
+	// drop default theme look (white bg / border), "inherit" parent appearance
+	lv_obj_remove_style_all(button_container);
 	lv_obj_add_style(button_container, &style_button_container, 0);
+	// match parent width so pct-sized children work as expected
+	lv_obj_set_size(button_container, LV_PCT(100), LV_SIZE_CONTENT);
 
         for(int i = 0; i < BUTTON_NUMBER; i++) {
                 button_t * btn = &ui_button[i];
@@ -218,7 +221,7 @@ static int create_button_ui(lv_obj_t * container)
                 btn->button_style = &style_ctrl_button;
 
                 btn->button_obj   = lv_button_create(button_container);
-                lv_obj_add_style(btn->button_obj, btn->button_style, 0);
+                
                 lv_obj_set_size(btn->button_obj, LV_PCT(15), 44);
 
                 const char * symbol = button_symbol_of(btn->button_type);
@@ -229,12 +232,14 @@ static int create_button_ui(lv_obj_t * container)
                 btn->button_label = lv_label_create(btn->button_obj);
                 lv_label_set_text(btn->button_label, symbol);
                 lv_obj_center(btn->button_label);
+                if(btn->button_type == BUTTON_PLAY_PAUSE) {
+                        lv_obj_add_style(btn->button_obj, btn->button_style, 0);
+                }
         }
 
-        /* play/pause: bigger, wired to logic (others reserved for now) */
-        button_t * play = &ui_button[BUTTON_PLAY_PAUSE];
-        lv_obj_set_size(play->button_obj, 64, 44);
-        lv_obj_add_event_cb(play->button_obj, play_pause_cb, LV_EVENT_CLICKED, NULL);
+	/* play/pause: wired to logic (all buttons share the same size/style) */
+	button_t * play = &ui_button[BUTTON_PLAY_PAUSE];
+	lv_obj_add_event_cb(play->button_obj, play_pause_cb, LV_EVENT_CLICKED, NULL);
 
         return 0;
 }
@@ -341,7 +346,7 @@ void lyrics_demo_create(void)
         lv_obj_set_flex_flow(ui.scr, LV_FLEX_FLOW_ROW);
 
         create_left_panel(ui.scr);
-        // create_right_panel(ui.scr);
+        create_right_panel(ui.scr);
 
         /* first line highlighted */
         ui.cur_line     = 0;

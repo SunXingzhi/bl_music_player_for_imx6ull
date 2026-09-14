@@ -70,7 +70,11 @@ void ui_theme_init(void)
 
 	/* buttons container */
 	lv_style_init(&style_button_container);
+	lv_style_set_bg_opa(&style_button_container, LV_OPA_TRANSP);
+	lv_style_set_border_width(&style_button_container, 0);
 	lv_style_set_flex_flow(&style_button_container, LV_FLEX_FLOW_ROW);
+	lv_style_set_flex_main_place(&style_button_container, LV_FLEX_ALIGN_CENTER);
+	lv_style_set_flex_cross_place(&style_button_container, LV_FLEX_ALIGN_CENTER);
 	lv_style_set_layout(&style_button_container, LV_LAYOUT_FLEX);
 
 	/* progress bar parts */
