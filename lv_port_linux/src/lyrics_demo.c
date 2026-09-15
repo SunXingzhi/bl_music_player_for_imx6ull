@@ -218,7 +218,7 @@ static int create_button_ui(lv_obj_t * container)
         for(int i = 0; i < BUTTON_NUMBER; i++) {
                 button_t * btn = &ui_button[i];
                 btn->button_type  = (button_type_t)i;
-                btn->button_style = &style_ctrl_button;
+                btn->button_style = &style_play_pause_button;;
 
                 btn->button_obj   = lv_button_create(button_container);
                 
@@ -232,8 +232,9 @@ static int create_button_ui(lv_obj_t * container)
                 btn->button_label = lv_label_create(btn->button_obj);
                 lv_label_set_text(btn->button_label, symbol);
                 lv_obj_center(btn->button_label);
-                if(btn->button_type == BUTTON_PLAY_PAUSE) {
-                        lv_obj_add_style(btn->button_obj, btn->button_style, 0);
+		lv_obj_add_style(btn->button_obj, btn->button_style, 0);
+                if(btn->button_type != BUTTON_PLAY_PAUSE) {
+                        lv_obj_remove_style_all(btn->button_obj);
                 }
         }
 

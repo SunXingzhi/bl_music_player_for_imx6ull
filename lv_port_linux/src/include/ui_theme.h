@@ -36,7 +36,10 @@ extern lv_style_t style_panel;
 /* scrollable lyric list: transparent, no scrollbar */
 extern lv_style_t style_lyric_list;
 /* icon buttons in control row */
-extern lv_style_t style_ctrl_button;
+extern lv_style_t style_play_pause_button;
+extern lv_style_t style_setting_button;
+extern lv_style_t style_progress_ctrl_button;
+
 /* all buttons need to be placed by row in a left panel's child */
 extern lv_style_t style_button_container;
 /* progress bar: track & indicator parts */

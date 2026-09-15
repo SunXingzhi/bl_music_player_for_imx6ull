@@ -17,7 +17,9 @@ lv_style_t style_lyric_act;
 lv_style_t style_panel;
 lv_style_t style_lyric_list;
 lv_style_t style_button_container;
-lv_style_t style_ctrl_button;
+lv_style_t style_play_pause_button;
+lv_style_t style_progress_ctrl_button;
+lv_style_t style_setting_button;
 lv_style_t style_bar_track;
 lv_style_t style_bar_ind;
 lv_style_t style_album_art;
@@ -64,14 +66,26 @@ void ui_theme_init(void)
 	lv_style_set_layout(&style_lyric_list, LV_LAYOUT_FLEX);
 
 	/* control buttons */
-	lv_style_init(&style_ctrl_button);
-	lv_style_set_bg_color(&style_ctrl_button, COL_ACCENT);
-	lv_style_set_text_color(&style_ctrl_button, COL_TXT);
+	lv_style_init(&style_play_pause_button);
+	lv_style_set_bg_color(&style_play_pause_button, COL_ACCENT);
+	lv_style_set_text_color(&style_play_pause_button, COL_TXT);
+
+	/* progress control button */
+	lv_style_init(&style_progress_ctrl_button);
+	lv_style_set_bg_color(&style_progress_ctrl_button, COL_ACCENT);
+	lv_style_set_text_color(&style_progress_ctrl_button, COL_TXT);
+
+	/* setting button */
+	lv_style_init(&style_setting_button);
+	lv_style_set_bg_color(&style_setting_button, COL_ACCENT);
+	lv_style_set_text_color(&style_setting_button, COL_TXT);
 
 	/* buttons container */
 	lv_style_init(&style_button_container);
 	lv_style_set_bg_opa(&style_button_container, LV_OPA_TRANSP);
 	lv_style_set_border_width(&style_button_container, 0);
+	// set the buttons' gap
+	lv_style_set_pad_gap(&style_button_container, 40);
 	lv_style_set_flex_flow(&style_button_container, LV_FLEX_FLOW_ROW);
 	lv_style_set_flex_main_place(&style_button_container, LV_FLEX_ALIGN_CENTER);
 	lv_style_set_flex_cross_place(&style_button_container, LV_FLEX_ALIGN_CENTER);
