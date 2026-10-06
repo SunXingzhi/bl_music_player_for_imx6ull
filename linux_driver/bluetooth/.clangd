@@ -1,0 +1,6 @@
+CompileFlags:
+  Add:
+    - --target=arm-linux-gnueabihf
+    - --sysroot=/home/q1325/Projects/IMX6ULL_learn/buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot
+    - -I/home/q1325/Projects/IMX6ULL_learn/buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/dbus-1.0
+    - -I/home/q1325/Projects/IMX6ULL_learn/buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot/usr/lib/dbus-1.0/include

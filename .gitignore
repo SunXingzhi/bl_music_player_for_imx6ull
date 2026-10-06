@@ -13,3 +13,6 @@ lv_port_linux/boards/
 lv_port_linux/3d/
 
 lv_port_linux/README.md
+platform/windows/media_forwarder/obj
+platform/windows/media_forwarder/bin
+platform/windows/media_forwarder/.vs
