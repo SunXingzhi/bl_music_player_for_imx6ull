@@ -3,8 +3,9 @@
  * 功能: 枚举声卡/PCM设备, 验证交叉编译+运行环境是否就绪
  * 编译: make (见同目录 Makefile)
  */
-#include <alsa/asoundlib.h>
 #include <stdio.h>
+#include <alsa/asoundlib.h>
+
 
 int main(void)
 {
