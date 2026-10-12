@@ -1,0 +1,15 @@
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\bin\Debug\net10.0\media_forwarder.exe
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\bin\Debug\net10.0\media_forwarder.deps.json
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\bin\Debug\net10.0\media_forwarder.runtimeconfig.json
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\bin\Debug\net10.0\media_forwarder.dll
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\bin\Debug\net10.0\media_forwarder.pdb
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\media_forwarder.GeneratedMSBuildEditorConfig.editorconfig
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\media_forwarder.AssemblyInfoInputs.cache
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\media_forwarder.AssemblyInfo.cs
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\media_forwarder.csproj.CoreCompileInputs.cache
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\media_forwarder.sourcelink.json
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\media_forwarder.dll
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\refint\media_forwarder.dll
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\media_forwarder.pdb
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\media_forwarder.genruntimeconfig.cache
+\\wsl.localhost\Ubuntu-26.04\home\q1325\Projects\IMX6ULL_learn\bl_music_player\windows\media_forwarder\media_forwarder\obj\Debug\net10.0\ref\media_forwarder.dll

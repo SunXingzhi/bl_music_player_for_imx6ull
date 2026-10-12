@@ -16,10 +16,10 @@
 #define ESTRPIPE ESPIPE
 #endif
 
-static char * device            = "plughw:0,0";       /* playback device */
+static char * device            = "plughw:1,0";       /* playback device */
 static snd_pcm_format_t format  = SND_PCM_FORMAT_S16; /* sample format */
-static unsigned int rate        = 44100;              /* stream rate */
-static unsigned int channels    = 1;                  /* count of channels */
+static unsigned int rate        = 48000;              /* stream rate */
+static unsigned int channels    = 2;                  /* count of channels */
 static unsigned int buffer_time = 500000;             /* ring buffer length in us */
 static unsigned int period_time = 100000;             /* period time in us */
 static double freq              = 440;                /* sinusoidal wave frequency in Hz */

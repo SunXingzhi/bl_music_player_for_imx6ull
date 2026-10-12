@@ -1,3 +1,6 @@
 [submodule "linux_driver/bluetooth/rtl8761b-firmware"]
 	path = linux_driver/bluetooth/rtl8761b-firmware
 	url = git@github.com:andrew-ld/rtl8761b-firmware.git
+[submodule "third_party/lvgl"]
+	path = third_party/lvgl
+	url = https://github.com/lvgl/lvgl.git
