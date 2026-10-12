@@ -22,5 +22,5 @@ target_link_libraries(bl_audio PUBLIC
 )
 
 # 主机自测程序(无声卡环境下验证链接与错误路径)
-add_executable(bl_audio_smoke smoke.c)
+add_executable(bl_audio_smoke test/smoke.c)
 target_link_libraries(bl_audio_smoke PRIVATE bl_audio)
